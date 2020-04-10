@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "908723770189",
+    "firebase_url": "https://face-editor-15798.firebaseio.com",
+    "project_id": "face-editor-15798",
+    "storage_bucket": "face-editor-15798.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908723770189:android:cb9be09412adb087e75d04",
+        "android_client_info": {
+          "package_name": "es.metodica.face_editor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908723770189-qbr026fvvp7s3f7o1rgj4894ub0tpr14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSgdemRsoEGo5FBZ6I7AuyCFHJrFdaajc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908723770189-qbr026fvvp7s3f7o1rgj4894ub0tpr14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:face_editor/tools/AppUtils.dart';
+import 'package:face_editor/tools/LoadSaveManager.dart';
 import 'package:face_editor/tools/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,7 +13,7 @@ import 'MagicBlackboard.dart';
 import 'package:image/image.dart' as img;
 
 class FaceEdit extends StatefulWidget {
-  final SaveToFile storage = SaveToFile();
+  final LoadSaveManager storage = LoadSaveManager();
   File imageFile;
   img.Image _original;
   img.Image _segmentation;
@@ -90,8 +91,8 @@ class _FaceEditState extends State<FaceEdit> {
               color: Colors.orange,
               height: MediaQuery.of(context).size.height * AppUtils.squareRatio,
               width: MediaQuery.of(context).size.height * AppUtils.squareRatio,
-              child: myMagicBlackboard != null ?
-
+              child:
+                myMagicBlackboard != null ?
                 Container(
                     decoration: BoxDecoration(
                         image: DecorationImage(
@@ -101,8 +102,7 @@ class _FaceEditState extends State<FaceEdit> {
                             ),
                             fit: BoxFit.fill)),
                     child: myMagicBlackboard
-                )
-                : Center(child: Text("LOADING")),
+                ) : Center(child: Text("LOADING")),
             ),
             Container(
               color: Colors.white30,
@@ -226,11 +226,31 @@ class _FaceEditState extends State<FaceEdit> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RaisedButton(
+                  child: Text("LOAD", style: TextStyle(fontSize: 18.0 + AppUtils.textExtraSizeForScreen(context)),),
+                  onPressed: () async {
+                    var file = await widget.storage.selectSavedFilesDialog(context);
+                    debugPrint(file);
+                    setState(() {
+                      widget._segmentation = img.decodeImage(File(file).readAsBytesSync());
+                      if (myMagicBlackboard != null)
+                        myMagicBlackboard.changeSegmentation(widget._segmentation);
+                    });
+                  },
+                ),
+                Padding(padding: EdgeInsets.all(16.0),),
+                RaisedButton(
                   child: Text("CLEAN", style: TextStyle(fontSize: 18.0 + AppUtils.textExtraSizeForScreen(context)),),
                   onPressed: () {
                     setState(() {
                       myMagicBlackboard.clean();
                     });
+                  },
+                ),
+                Padding(padding: EdgeInsets.all(16.0),),
+                RaisedButton(
+                  child: Text("SAVE", style: TextStyle(fontSize: 18.0 + AppUtils.textExtraSizeForScreen(context)),),
+                  onPressed: () {
+                    widget.storage.saveFileDialog(widget._segmentation, context);
                   },
                 ),
               ],
@@ -244,7 +264,6 @@ class _FaceEditState extends State<FaceEdit> {
         onPressed: () {
           myMagicBlackboard.transformImage();
         },
-        tooltip: Translations.of(context).text('buy_tooltip'),
         child: Icon(Icons.done, color: Colors.white),
       ), // This trailing comma makes auto-form
     );
@@ -346,20 +365,3 @@ class _FaceEditState extends State<FaceEdit> {
 }
 
 
-class SaveToFile {
-  Future<String> get _localPath async {
-    final directory = await getExternalStorageDirectory();
-    return directory.path;
-  }
-
-  Future<File> get localFile async {
-    final path = await _localPath;
-    debugPrint("LOCAL PATH TO SAVE FILE: " + path);
-    return File('$path/thumbnail.png');
-  }
-
-  Future<File> save(img.Image image) async {
-    final file = await localFile;
-    return file..writeAsBytesSync(img.encodePng(image));
-  }
-}

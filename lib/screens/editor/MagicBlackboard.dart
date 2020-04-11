@@ -44,6 +44,11 @@ class MagicBlackboard extends StatefulWidget {
     _actualState.transformImage();
   }
 
+  void changeSegmentation(img.Image segmentation) {
+    baseImage = segmentation;
+    _actualState._getBackgroundImage();
+  }
+
   void changeStrokeColor(Color newColor) {
     _actualState.setState(() {
       _actualState._saveActualPath();

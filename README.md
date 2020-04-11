@@ -1,4 +1,4 @@
-# Face Editor Flutter App
+# Face Editor (Flutter App)
 
 This is a real world Application which claims to be a good starting point for a Flutter applications that wants to use Machine Learning or Artificial Intelligence as a part of them.
 

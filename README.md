@@ -7,6 +7,10 @@ This is a really simple proyect with almost no-structure focused on:
 - Using a real custom tensorflow lite model loaded locally and used offline. A custom model made by myself, not the usual models preloaded from Tensorflow team and used in all tutorials. You can check out the model [here](https://github.com/ianholing/faceGAN_face_editor) 
 - Consume an AI API also created by myself. A little one with not much complications and runnning on a Raspberry Pi 4 hardware at home. You can check out the server [here](https://github.com/ianholing/faceEditor_server/)
 
+## Real Working models
+- Local App model (Face Segmentation 256x256 tflite)[http://www.metodica.es/segmentator.tflite]
+- Server (Face Generator 512x512)[http://www.metodica.es/generator_8.h5] 
+
 ## Comming soon: links on markets
 
 ## Flutter Getting Started

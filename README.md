@@ -8,8 +8,8 @@ This is a really simple proyect with almost no-structure focused on:
 - Consume an AI API also created by myself. A little one with not much complications and runnning on a Raspberry Pi 4 hardware at home. You can check out the server [here](https://github.com/ianholing/faceEditor_server/)
 
 ## Real Working models
-- Local App model [Face Segmentation 256x256 tflite](http://www.metodica.es/segmentator.tflite)
-- Server [Face Generator 512x512](http://www.metodica.es/generator_8.h5)
+- Local App model (171M) [Face Segmentation 256x256 tflite](http://www.metodica.es/segmentator.tflite)
+- Server API Model (596M) [Face Generator 512x512](http://www.metodica.es/generator_8.h5)
 
 ## Comming soon: links on markets
 
@@ -21,7 +21,6 @@ This is a really simple proyect with almost no-structure focused on:
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
-
 
 ### Credits
 

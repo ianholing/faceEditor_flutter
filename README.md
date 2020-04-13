@@ -11,7 +11,10 @@ This is a really simple proyect with almost no-structure focused on:
 - Local App model (171M) [Face Segmentation 256x256 tflite](http://www.metodica.es/segmentator.tflite)
 - Server API Model (596M) [Face Generator 512x512](http://www.metodica.es/generator_8.h5)
 
-## Comming soon: links on markets
+## Links on markets
+Real App links are comming soon, meanwhile mAIro uses the same structure and it is already in markets and completely working over the same Raspberry Pi Server:
+
+[mAIro: AI Generated Art](http://www.mairoart.com/)
 
 ## Flutter Getting Started
 

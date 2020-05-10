@@ -12,7 +12,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="face_editor"
+        android:label="AI Face Editor"
         android:icon="@mipmap/ic_launcher">
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"

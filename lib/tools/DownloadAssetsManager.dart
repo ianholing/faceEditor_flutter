@@ -9,36 +9,47 @@ class DownloadAssetsManager {
   static int fileSize;
   static int downloadProgress = 0;
 
-  static Future<bool> downloadAssets(String url, String name) async {
+  static Future<bool> downloadAssets(String url, String name, void Function(double percentage) progressCallback) async {
     if (_dir == null) {
       _dir = (await getApplicationSupportDirectory()).path;
     }
 
-    if (!await hasToDownloadAssets(name, _dir)) {
+    if (!await hasToDownloadAssets(name)) {
       return false;
     }
 
-    var zippedFile = await _downloadFile(url, '$name.zip', _dir);
+    await _downloadFile(url, '$name.zip', _dir, progressCallback);
     return true;
   }
 
-  static Future<bool> hasToDownloadAssets(String name, String dir) async {
-    var file = File('$dir/$name');
+  static Future<bool> hasToDownloadAssets(String name) async {
+    if (_dir == null) {
+      _dir = (await getApplicationSupportDirectory()).path;
+    }
+
+    var file = File('$_dir/$name');
     return !(await file.exists());
   }
 
-  static Future<File> _downloadFile(String url, String filename, String dir) async {
+  static Future<File> _downloadFile(String url, String filename, String dir, void Function(double percentage) progressCallback) async {
     await Dio().download(url, '$dir/$filename',
       options: Options(headers: {HttpHeaders.acceptEncodingHeader: "*"}),  // disable gzip
       onReceiveProgress: (received, total) {
         if (total != -1) {
-          debugPrint((received / total * 100).toStringAsFixed(0) + "%");
-          if (received == total) _unzipFile(File('$dir/$filename'));
+          double p = received / total * 100;
+
+          debugPrint(p.toStringAsFixed(0) + "%");
+          if (progressCallback != null)
+            progressCallback((p.floor() >= 99 ? 99 : p));
+          if (received == total)
+          {
+            _unzipFile(File('$dir/$filename'), progressCallback);
+          }
         }
       });
   }
 
-  static Future<File> _unzipFile(File zippedFile) async {
+  static Future<File> _unzipFile(File zippedFile, void Function(double percentage) progressCallback) async {
     var bytes = zippedFile.readAsBytesSync();
     var archive = ZipDecoder().decodeBytes(bytes);
 
@@ -51,5 +62,6 @@ class DownloadAssetsManager {
       }
     }
     zippedFile.delete();
+    progressCallback(100.0);
   }
 }

@@ -50,7 +50,8 @@ class MainActivity : FlutterActivity() {
 
         // Flutter getApplicationDocumentsDirectory:    /data/user/0/es.metodica.face_editor/app_flutter/segmentator.tflite
         // Flutter getApplicationSupportDirectory:      /data/user/0/es.metodica.face_editor/files/segmentator.tflite
-        val file = File(filesDir.getPath() + "/" + modelFilename)
+        val file = File(filesDir.path + "/" + modelFilename)
+        Log.d(null, file.path)
         tflite = Interpreter(file)
         return "success"
     }

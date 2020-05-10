@@ -32,6 +32,7 @@ dependencies:
   firebase_analytics: ^3.0.1
   http: any
   dio: 3.0.9
+  liquid_progress_indicator: ^0.3.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -57,6 +58,7 @@ flutter:
   assets:
     - assets/white_box.png
     - assets/error.png
+    - assets/logo.png
 #    - assets/segmentator.tflite
     - locale/i18n_en.json
     - locale/i18n_es.json
@@ -83,6 +85,23 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+
+  fonts:
+    - family: Roboto Black
+      fonts:
+        - asset: fonts/Roboto-Black.ttf
+
+    - family: Roboto Light
+      fonts:
+        - asset: fonts/Roboto-Light.ttf
+
+    - family: RODUScut500
+      fonts:
+        - asset: fonts/RODUScut500.otf
+
+    - family: RODUScut700
+      fonts:
+        - asset: fonts/RODUScut700.otf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

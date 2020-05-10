@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 
 class AppUtils {
-  static final String baseUrl = "http://192.168.1.59:5001/";
-//  static final String baseUrl = "https://mairo.metodica.es:5001/";
+//  static final String baseUrl = "http://192.168.1.59:5001/";
+  static final String baseUrl = "https://mairo.metodica.es:5001/";
   static final double squareRatio = 0.4;
   static final double modelImageSize = 256;
 

@@ -1,5 +1,7 @@
 package es.metodica.face_editor
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import io.flutter.app.FlutterActivity
@@ -7,9 +9,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.Tensor
-import java.io.FileInputStream
+import java.io.File
 import java.io.IOException
-import java.nio.channels.FileChannel
 import java.util.*
 
 
@@ -42,16 +43,15 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.FROYO)
     @Throws(IOException::class)
     private fun loadModel(args: HashMap<*, *>): String {
         val modelFilename: String = args.get("model").toString()
-        val fileDescriptor = assets.openFd("flutter_assets/$modelFilename")
-        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
-        val fileChannel: FileChannel = inputStream.getChannel()
-        val startOffset = fileDescriptor.startOffset
-        val declaredLength = fileDescriptor.declaredLength
-        val mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
-        tflite = Interpreter(mappedByteBuffer)
+
+        // Flutter getApplicationDocumentsDirectory:    /data/user/0/es.metodica.face_editor/app_flutter/segmentator.tflite
+        // Flutter getApplicationSupportDirectory:      /data/user/0/es.metodica.face_editor/files/segmentator.tflite
+        val file = File(filesDir.getPath() + "/" + modelFilename)
+        tflite = Interpreter(file)
         return "success"
     }
 
@@ -88,43 +88,4 @@ class MainActivity : FlutterActivity() {
         }
         result.success(flatReturn)
     }
-
-//    @Throws(IOException::class)
-//    fun feedInputTensor(bitmapRaw: Bitmap, mean: Float, std: Float): ByteBuffer? {
-//        val tensor: Tensor = tflite?.getInputTensor(0) ?:
-//        val shape = tensor.shape()
-//        inputSize = shape[1]
-//        val inputChannels = shape[3]
-//        val bytePerChannel = if (tensor.dataType() == DataType.UINT8) 1 else BYTES_PER_CHANNEL
-//        val imgData: ByteBuffer = ByteBuffer.allocateDirect(1 * inputSize * inputSize * inputChannels * bytePerChannel)
-//        imgData.order(ByteOrder.nativeOrder())
-//        var bitmap = bitmapRaw
-//        if (bitmapRaw.width != inputSize || bitmapRaw.height != inputSize) {
-//            val matrix: Matrix = getTransformationMatrix(bitmapRaw.width, bitmapRaw.height,
-//                    inputSize, inputSize, false)
-//            bitmap = Bitmap.createBitmap(inputSize, inputSize, Bitmap.Config.ARGB_8888)
-//            val canvas = Canvas(bitmap)
-//            canvas.drawBitmap(bitmapRaw, matrix, null)
-//        }
-//        if (tensor.dataType() == DataType.FLOAT32) {
-//            for (i in 0 until inputSize) {
-//                for (j in 0 until inputSize) {
-//                    val pixelValue = bitmap.getPixel(j, i)
-//                    imgData.putFloat(((pixelValue shr 16 and 0xFF) - mean) / std)
-//                    imgData.putFloat(((pixelValue shr 8 and 0xFF) - mean) / std)
-//                    imgData.putFloat(((pixelValue and 0xFF) - mean) / std)
-//                }
-//            }
-//        } else {
-//            for (i in 0 until inputSize) {
-//                for (j in 0 until inputSize) {
-//                    val pixelValue = bitmap.getPixel(j, i)
-//                    imgData.put((pixelValue shr 16 and 0xFF).toByte())
-//                    imgData.put((pixelValue shr 8 and 0xFF).toByte())
-//                    imgData.put((pixelValue and 0xFF).toByte())
-//                }
-//            }
-//        }
-//        return imgData
-//    }
 }

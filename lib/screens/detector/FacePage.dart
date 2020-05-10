@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 
 import 'package:face_editor/screens/editor/FaceEdit.dart';
+import 'package:face_editor/tools/DownloadAssetsManager.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,6 +26,7 @@ class _FacePageState extends State<FacePage> {
 
   _getImageAndDetectFaces() async {
     //final imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
+    await DownloadAssetsManager.downloadAssets('http://www.metodica.es/segmentator.zip', 'segmentator.tflite');
     final imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       isLoading = true;
@@ -90,7 +92,7 @@ class _FacePageState extends State<FacePage> {
                       child: MaterialButton(
                         height: f.bottom-f.top,
                         minWidth: f.right-f.left,
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(

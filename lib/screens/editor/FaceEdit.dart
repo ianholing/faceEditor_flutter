@@ -310,7 +310,7 @@ class _FaceEditState extends State<FaceEdit> {
 
   Future loadModel() async {
     var res = await tflite.invokeMethod(
-        'load_model', new Map.from({"model": "assets/segmentator.tflite"}));
+        'load_model', new Map.from({"model": "segmentator.tflite"}));
     print(res);
 
     var result = await tflite.invokeMethod<Float64List>('inference',

@@ -5,6 +5,17 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as img;
 
 class LoadSaveManager {
+  String folder = "saves";
+
+  LoadSaveManager() {
+    init();
+  }
+
+  void init() async {
+    final dir = await _localPath;
+    new Directory('${dir.path}/$folder').create();
+  }
+
   Future<Directory> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory;
@@ -12,26 +23,27 @@ class LoadSaveManager {
 
   Future<File> save(img.Image image, String filename) async {
     final dir = await _localPath;
-    debugPrint("LOCAL PATH TO SAVE FILE: " + dir.path + "/" + filename);
-    final file = File('${dir.path}/$filename');
+    debugPrint("LOCAL PATH TO SAVE FILE: ${dir.path}/$folder/$filename");
+    final file = File('${dir.path}/$folder/$filename');
     return file..writeAsBytesSync(img.encodePng(image));
   }
 
   Future<List<FileSystemEntity>> getSavedFiles() async {
     final dir = await _localPath;
-    return dir.listSync();
+    return Directory('${dir.path}/$folder/').listSync();
   }
 
-  Future<String> selectSavedFilesDialog(BuildContext context) async {
+  Future<String> selectSavedFilesDialog(BuildContext context, Function(String file) callback) async {
     var files = await getSavedFiles();
     List<Widget> optionsList = files.map((file) =>
         SimpleDialogOption(
           onPressed: () {
-            Navigator.pop(context, file.path);
+            callback(file.path);
+            //Navigator.pop(context, file.path);
           },
           child: Text(file.path),
         )).toList();
-    return await showDialog<String>(
+    return showDialog<String>(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {

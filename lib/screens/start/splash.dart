@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import '../../main.dart';
-import '../../main_gallery.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -35,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            settings: RouteSettings(name: "Home", isInitialRoute: false),
+            settings: RouteSettings(name: "Home"),
             builder: (context) => MyApp()
         ),
       );

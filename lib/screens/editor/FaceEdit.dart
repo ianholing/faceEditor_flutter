@@ -228,13 +228,7 @@ class _FaceEditState extends State<FaceEdit> {
                 RaisedButton(
                   child: Text("LOAD", style: TextStyle(fontSize: 18.0 + AppUtils.textExtraSizeForScreen(context)),),
                   onPressed: () async {
-                    var file = await widget.storage.selectSavedFilesDialog(context);
-                    debugPrint(file);
-                    setState(() {
-                      widget._segmentation = img.decodeImage(File(file).readAsBytesSync());
-                      if (myMagicBlackboard != null)
-                        myMagicBlackboard.changeSegmentation(widget._segmentation);
-                    });
+                    widget.storage.selectSavedFilesDialog(context, changeSegment);
                   },
                 ),
                 Padding(padding: EdgeInsets.all(16.0),),
@@ -305,6 +299,15 @@ class _FaceEditState extends State<FaceEdit> {
             img.encodePng(widget._original)
         );
       });
+    });
+  }
+
+  void changeSegment(String file) {
+    debugPrint(file);
+    setState(() {
+      widget._segmentation = img.decodeImage(File(file).readAsBytesSync());
+      if (myMagicBlackboard != null)
+        myMagicBlackboard.changeSegmentation(widget._segmentation);
     });
   }
 

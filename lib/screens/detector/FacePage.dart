@@ -95,7 +95,7 @@ class _FacePageState extends State<FacePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                settings: RouteSettings(name: "Form", isInitialRoute: false),
+                                settings: RouteSettings(name: "Form"),
                                 builder: (BuildContext context) =>
                                     FaceEdit(imageFile: _imageFile, boundingBox: f),
                               ));

@@ -25,7 +25,7 @@ class MagicBlackBoardHandler {
 
 class MagicBlackboard extends StatefulWidget {
   ImageAccess aImagen = new ImageAccess();
-  Color strokeColor = Colors.black;
+  Color strokeColor = Color(0xffffff00);
   _MagicBlackboardState _actualState;
   MagicBlackBoardHandler handler;
   img.Image baseImage;

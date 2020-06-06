@@ -39,7 +39,7 @@ class _FaceEditState extends State<FaceEdit> {
   Image faceEdited;
   //var _opacityController;
   Widget _picture;
-  bool _useOriginal = true;
+  bool _useOriginal = false;
 
   @override
   Widget build(BuildContext context) {

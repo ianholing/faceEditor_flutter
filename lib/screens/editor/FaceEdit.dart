@@ -313,15 +313,15 @@ class _FaceEditState extends State<FaceEdit> {
 
   Future loadModel() async {
     var res = await tflite.invokeMethod(
-        'load_model', new Map.from({"model": "segmentator.tflite"}));
+        'load_model', new Map.from({"model": AppUtils.modelName}));
     print(res);
 
-    var result = await tflite.invokeMethod<Float64List>('inference',
+    var result = await tflite.invokeMethod<Int32List>('inference',
         new Map.from({
-          "input": AppUtils.imageToByteListFloat32(widget._original, 256, 127.5, 127.5)
+          "input": AppUtils.imageToByteListFloat32(widget._original, 256, 0, 255)
         }));
 
-    widget._segmentation = AppUtils.fillImageWithFloatList(result, 256, 1, 127.5);
+    widget._segmentation = AppUtils.fillImageWithIntList(result, 256);
   }
 
   void _changePicture() async {

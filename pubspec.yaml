@@ -11,7 +11,7 @@ description: Face Editor
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.1+2
+version: 1.0.4+5
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -22,6 +22,7 @@ dependencies:
 
   camera:
   path_provider:
+  image: ^2.1.18
 #  path:
   image_picker: ^0.6.1+4
   firebase_ml_vision: ^0.9.2+1

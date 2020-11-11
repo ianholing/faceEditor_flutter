@@ -10,7 +10,9 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.Tensor
 import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
+import java.nio.channels.FileChannel
 import java.util.*
 
 
@@ -50,9 +52,18 @@ class MainActivity : FlutterActivity() {
 
         // Flutter getApplicationDocumentsDirectory:    /data/user/0/es.metodica.face_editor/app_flutter/segmentator.tflite
         // Flutter getApplicationSupportDirectory:      /data/user/0/es.metodica.face_editor/files/segmentator.tflite
+
+        // TFLITE USUAL VERSION (FLAT BUFFER)
         val file = File(filesDir.path + "/" + modelFilename)
         Log.d(null, file.path)
-        tflite = Interpreter(file)
+        //tflite = Interpreter(file)
+
+        // PYTORCH CONVERTED TFLITES (NO FLAT BUFFER)
+        val f_input_stream = FileInputStream(file)
+        val f_channel = f_input_stream.channel
+        val tflite_model = f_channel.map(FileChannel.MapMode.READ_ONLY, 0, f_channel.size())
+        tflite = Interpreter(tflite_model)
+
         return "success"
     }
 
@@ -61,9 +72,9 @@ class MainActivity : FlutterActivity() {
         val shape = tensor?.shape()
 
         val inp = Array(shape[0]) { Array(shape[1]) { Array(shape[2]) { FloatArray(shape[3]) } } }
-        var out = Array(shape[0]) { Array(shape[1]) { Array(shape[2]) { FloatArray(shape[3]) } } }
+        var out = Array(shape[0]) { Array(shape[1]) { Array(shape[2]) { IntArray(shape[3]) } } }
         val flatArray = args["input"] as ArrayList<*>
-        val flatReturn = DoubleArray(shape[1] * shape[2] * shape[3])
+        val flatReturn = IntArray(shape[1] * shape[2] * shape[3])
 
         var iz = 0
         var iy = 0
@@ -82,7 +93,7 @@ class MainActivity : FlutterActivity() {
         iz = 0; iy = 0; ix = 0
         for (i in 0 until shape[1] * shape[2] * shape[3] - 1) {
             //Log.d("FACE EDITOR", "ARRAY POSITION: ($ix, $iy, $iz), INDEX: $i, VALUE: $value")
-            flatReturn[i] = out[0][ix][iy][iz].toDouble()
+            flatReturn[i] = out[0][ix][iy][iz]
             iz++
             if (iz != 0 && iz % 3 == 0) { iy++; iz = 0 }
             if (iy != 0 && iy % 256 == 0) { ix++; iy = 0 }

@@ -29,12 +29,15 @@ class MagicBlackboard extends StatefulWidget {
   _MagicBlackboardState _actualState;
   MagicBlackBoardHandler handler;
   img.Image baseImage;
+  img.Image baseSegments;
   Uint8List realImage;
   ui.Image pBaseImage;
   double _containerSize = -1;
 
 
-  MagicBlackboard(this.handler, this.baseImage, this.realImage);
+  MagicBlackboard(this.handler, this.baseImage, this.realImage) {
+    this.baseSegments = baseImage;
+  }
 
   void clean() {
     _actualState.stateClean();
@@ -102,6 +105,7 @@ class _MagicBlackboardState extends State<MagicBlackboard>
           "POST", Uri.parse(AppUtils.baseUrl + "magic"));
       request.fields['segmentation'] = base64.encode(img.encodePng(mergedImage));
       request.fields['original'] = base64.encode(widget.realImage);
+      request.fields['original_segm'] = base64.encode(img.encodePng(widget.baseSegments));
 
 //      // TODO: Make it work with Bytes, quickest way, but got problems with encoding
 //      request.files.add(new http.MultipartFile.fromBytes('original', widget.aImagen.bytes));

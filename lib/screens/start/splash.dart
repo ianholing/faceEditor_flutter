@@ -1,3 +1,4 @@
+import 'package:face_editor/tools/AppUtils.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:face_editor/tools/DownloadAssetsManager.dart';
 import 'package:face_editor/widgets/MainIcon.dart';
@@ -12,8 +13,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String modelUrl = 'http://www.metodica.es/segmentator.zip';
-  String modelAsset = 'segmentator.tflite';
+  //String modelUrl = 'http://www.metodica.es/segmentator.zip';
+  String modelUrl = 'https://avatart.app/megamask_v2.tflite.zip';
+  String modelAsset = AppUtils.modelName;
   bool needDownload = false;
   Widget modelDownloadProgress = Text("Loading...");
   LiquidLinearProgressIndicator liquidProgress;

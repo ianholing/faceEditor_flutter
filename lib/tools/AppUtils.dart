@@ -7,6 +7,7 @@ import 'package:image/image.dart' as img;
 class AppUtils {
 //  static final String baseUrl = "http://192.168.1.59:5001/";
   static final String baseUrl = "https://mairo.metodica.es:5001/";
+  static final String modelName = "megamask_v2.tflite";
   static final double squareRatio = 0.4;
   static final double modelImageSize = 256;
 
@@ -115,6 +116,21 @@ class AppUtils {
         var b = ( data[pixelIndex+2] + mean ) * std;
         pixelIndex += 3;
         segmentation.setPixelRgba(j, i, r.floor(), g.floor(), b.floor());
+      }
+    }
+    return segmentation;
+  }
+
+  static img.Image fillImageWithIntList(Int32List data, int inputSize) {
+    img.Image segmentation = img.Image.rgb(inputSize, inputSize);
+    int pixelIndex = 0;
+    for (var i = 0; i < inputSize; i++) {
+      for (var j = 0; j < inputSize; j++) {
+        var r = ( data[pixelIndex+0]);
+        var g = ( data[pixelIndex+1]);
+        var b = ( data[pixelIndex+2]);
+        pixelIndex += 3;
+        segmentation.setPixelRgba(j, i, r, g, b);
       }
     }
     return segmentation;
